@@ -18,7 +18,9 @@
         margin: 0;
         display: flex;
         justify-content: center;
-        align-items: center;
+        align-items: flex-start;
+        padding: 24px 16px;
+        box-sizing: border-box;
         min-height: 100vh;
       }
       .container {
@@ -31,7 +33,86 @@
         box-sizing: border-box;
       }
 
-      /* 로고 및 기본 스타일 */
+      
+      .page {
+        width: 100%;
+        max-width: 1100px;
+        display: flex;
+        gap: 20px;
+        align-items: flex-start;
+        justify-content: center;
+      }
+
+      .side-panel {
+        flex: 1;
+        min-width: 320px;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        padding: 20px;
+        box-sizing: border-box;
+        display: none;
+        position: sticky;
+        top: 24px;
+      }
+
+      .side-title {
+        font-size: 12px;
+        color: #555;
+        font-weight: 800;
+        margin-top: 14px;
+      }
+
+      .side-drug {
+        font-size: 18px;
+        font-weight: 800;
+        line-height: 1.4;
+        margin-top: 6px;
+        word-break: keep-all;
+        overflow-wrap: anywhere;
+      }
+
+      .side-box {
+        margin-top: 10px;
+        padding: 12px;
+        border: 1px solid #eee;
+        border-radius: 12px;
+        background: #fafafa;
+      }
+
+      .chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+      .chip {
+        border: 1px solid #e5e7eb;
+        background: #fff;
+        border-radius: 999px;
+        padding: 8px 10px;
+        font-size: 12px;
+        cursor: pointer;
+        transition: 0.15s;
+      }
+      .chip:hover { transform: translateY(-1px); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+      .chip:disabled { cursor: not-allowed; opacity: 0.6; }
+      .hint {
+        font-size: 12px;
+        color: #666;
+        line-height: 1.45;
+        margin-top: 8px;
+      }
+
+      .muted {
+        font-size: 12px;
+        color: #666;
+        line-height: 1.5;
+        margin-top: 6px;
+        overflow-wrap: anywhere;
+      }
+
+      @media (max-width: 900px) {
+        .page { flex-direction: column; }
+        .container { max-width: 100%; }
+        .side-panel { position: static; width: 100%; }
+      }
+
       .logo {
         font-size: 24px;
         font-weight: bold;
@@ -64,206 +145,172 @@
         cursor: not-allowed;
       }
 
-      #login-section {
-        text-align: center;
-      }
-      #main-section {
-        display: none;
-      }
+      #login-section { text-align: center; }
+      #main-section { display: none; }
 
-      /* 섹션 박스 */
       .section-box {
         border-radius: 12px;
         padding: 15px;
         margin-bottom: 15px;
         border: 1px solid #eee;
       }
-      .trust-box {
-        background: #f0fdf4;
-        border-left: 5px solid var(--primary-color);
-      }
-      .trust-label {
-        font-size: 12px;
-        color: #166534;
-        font-weight: bold;
-      }
+      .trust-box { background: #f0fdf4; border-left: 5px solid var(--primary-color); }
+      .trust-label { font-size: 12px; color: #166534; font-weight: bold; }
 
-      /* 파일 첨부 및 미리보기 영역 (수정됨) */
-      .upload-section {
-        margin-top: 20px;
-        border-top: 1px solid #eee;
-        padding-top: 20px;
-      }
-      .file-box {
-        background: #f8f9fa;
-        padding: 12px;
-        border-radius: 12px;
-        margin-bottom: 15px;
-        border: 1px dashed #ccc;
-      }
-      .file-box label {
-        font-weight: bold;
-        font-size: 14px;
-        color: #333;
-        display: block;
-        margin-bottom: 8px;
-      }
+      .upload-section { margin-top: 20px; border-top: 1px solid #eee; padding-top: 20px; }
+      .file-box { background: #f8f9fa; padding: 12px; border-radius: 12px; margin-bottom: 15px; border: 1px dashed #ccc; }
+      .file-box label { font-weight: bold; font-size: 14px; color: #333; display: block; margin-bottom: 8px; }
 
-      /* 여러 장 미리보기를 위한 그리드 컨테이너 */
-      .preview-container {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 8px;
-        margin-top: 10px;
-      }
-      .preview-img {
-        width: 100%;
-        height: 70px;
-        object-fit: cover;
-        border-radius: 6px;
-        border: 1px solid #ddd;
-      }
+      .preview-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
+      .preview-img { width: 100%; height: 70px; object-fit: cover; border-radius: 6px; border: 1px solid #ddd; }
 
-      /* 결과 화면 */
-      #result-container {
-        display: none;
-        margin-top: 20px;
-      }
-      .warning-box {
-        text-align: center;
-      }
-      .traffic-light {
-        font-size: 40px;
-        margin: 10px 0;
-      }
-      .status-text {
-        font-size: 18px;
-        font-weight: bold;
-      }
-      .desc-box {
-        background: #fff;
-        line-height: 1.6;
-      }
+      #result-container { display: none; margin-top: 20px; }
+      .warning-box { text-align: center; }
+      .traffic-light { font-size: 40px; margin: 10px 0; }
+      .status-text { font-size: 18px; font-weight: bold; }
+      .desc-box { background: #fff; line-height: 1.6; }
 
-      .logout-btn {
-        background: none;
-        border: none;
-        color: #888;
-        text-decoration: underline;
-        cursor: pointer;
-        float: right;
-        font-size: 12px;
-      }
+      .logout-btn { background: none; border: none; color: #888; text-decoration: underline; cursor: pointer; float: right; font-size: 12px; }
     </style>
   </head>
   <body>
-    <div class="container">
+    <div class="page">
+      <div class="container">
       <div id="login-section">
         <div class="logo">🌿 세이프필 (Safe Pill)</div>
         <p>환영합니다! 닉네임과 PIN을 입력해주세요.</p>
-        <input
-          type="text"
-          id="nickname"
-          placeholder="닉네임 입력 (예: 홍길동)"
-        />
-        <input
-          type="password"
-          id="pin"
-          placeholder="PIN 번호 4자리 입력"
-          maxlength="4"
-        />
-        <button class="btn-primary" onclick="handleLogin()">시작하기</button>
+        <input type="text" id="nickname" placeholder="닉네임 입력 (예: 홍길동)" />
+        <input type="password" id="pin" placeholder="PIN 번호 4자리 입력" maxlength="4" />
+        <button class="btn-primary" onclick="handleLogin()">로그인 / 3초 회원가입</button>
       </div>
 
       <div id="main-section">
         <button class="logout-btn" onclick="handleLogout()">로그아웃</button>
-        <div
-          class="logo"
-          style="font-size: 18px; margin-bottom: 15px; text-align: left"
-        >
+        <div class="logo" style="font-size: 18px; margin-bottom: 15px; text-align: left">
           🌿 <span id="user-greeting"></span>님의 복약 가이드
         </div>
 
         <div class="section-box trust-box">
           <span class="trust-label">✓ 공공데이터 연동 완료</span>
-          <p style="margin: 5px 0 0; font-size: 13px">
-            의약품안전관리원 데이터를 기반으로 분석합니다.
-          </p>
+          <p style="margin: 5px 0 0; font-size: 13px">의약품안전관리원 데이터를 기반으로 분석합니다.</p>
         </div>
 
         <div class="upload-section">
           <div class="file-box">
             <label>📦 1. 현재 복용 중인 약 (내 약통)</label>
-            <input
-              type="file"
-              id="current-pill"
-              accept="image/*"
-              multiple
-              onchange="
-                handleMultiplePreviews(event, 'preview-current-container')
-              "
-            />
-            <div id="preview-current-container" class="preview-container"></div>
             <div style="margin-top:10px;">
-              <input id="med-input" type="text" placeholder="복용 중인 약 이름 입력 (예: 이부프로펜)" />
-              <button class="btn-primary" style="margin-top:8px;" onclick="addMed()">약통에 추가</button>
+              <input id="med-input" type="text" placeholder="복용 중인 약 이름 입력 (예: 와파린)" />
+              <button class="btn-primary" style="margin-top:8px; padding: 10px;" onclick="addMed()">약통에 영구 추가</button>
               <ul id="med-list" style="list-style:none; padding-left:0; margin-top:10px;"></ul>
             </div>
           </div>
 
           <div class="file-box">
-            <label>💊 2. 새로 먹을 약 (분석 대상)</label>
-            <input
-              type="file"
-              id="new-pill"
-              accept="image/*"
-              multiple
-              onchange="handleMultiplePreviews(event, 'preview-new-container')"
-            />
+            <label>💊 2. 새로 먹을 약 사진 (분석 대상)</label>
+            <input type="file" id="new-pill" accept="image/*" multiple onchange="handleMultiplePreviews(event, 'preview-new-container')" />
             <div id="preview-new-container" class="preview-container"></div>
           </div>
 
-          <button id="analyze-btn" class="btn-primary" onclick="confirmStep()">
-            AI 분석 시작하기 🚀
-          </button>
+          <button id="analyze-btn" class="btn-primary" onclick="confirmStep()">AI 분석 시작하기 🚀</button>
         </div>
 
         <div id="result-container">
           <div class="section-box warning-box">
             <div class="status-text">분석 결과</div>
             <div class="traffic-light">⚪</div>
-            <p id="reason-text" style="font-size: 13px; margin: 0">
-              결과 데이터 로딩 중...
-            </p>
+            <p id="reason-text" style="font-size: 13px; margin: 0">결과 데이터 로딩 중...</p>
           </div>
-
           <div class="section-box desc-box">
-            <span style="font-weight: bold">💡 알기 쉬운 요약</span>
-            <p
-              id="personalized-desc"
-              style="font-size: 14px; color: #444; margin-top: 5px"
-            ></p>
+            <span style="font-weight: bold">💡 AI 약사 요약</span>
+            <p id="personalized-desc" style="font-size: 14px; color: #444; margin-top: 5px"></p>
           </div>
         </div>
       </div>
     </div>
 
-    <script>
-      // 자동 로그인 체크
+    
+      <aside class="side-panel" id="side-panel">
+        <div class="logo" style="font-size: 18px; margin: 0; text-align: left">📌 분석 상세</div>
+
+        <div class="side-title">✅ 교정된 공식 약품명</div>
+        <div class="side-box">
+          <div class="side-drug" id="panel-corrected">-</div>
+          <div class="muted" id="panel-note">로그인 후 분석하면 여기로 길게 표시돼요.</div>
+        </div>
+
+        <div class="side-title">OCR 원문</div>
+        <div class="side-box">
+          <div class="muted" id="panel-ocr">-</div>
+        </div>
+
+        <div class="side-title">규칙 기반 교정(중간 결과)</div>
+        <div class="side-box">
+          <div class="muted" id="panel-rule">-</div>
+        </div>
+
+        <div class="side-title">DB 매칭 신뢰도</div>
+        <div class="side-box">
+          <div class="muted" id="panel-confidence">-</div>
+        </div>
+
+        <div class="side-title">유효성분(추출)</div>
+        <div class="side-box">
+          <div class="muted" id="panel-ingredients">-</div>
+        </div>
+
+        <div class="side-title">후보 약품명(필요 시)</div>
+        <div class="side-box">
+          <div class="muted" id="panel-candidates">-</div>
+          <div id="panel-candidate-buttons" class="chip-row" style="display:none;"></div>
+          <div class="hint" id="panel-candidate-hint" style="display:none;">
+            매칭이 애매하면(신뢰도 낮음) 후보를 눌러서 확정해 주세요. 누르면 아래 결과가 즉시 다시 계산됩니다.
+          </div>
+        </div>
+      </aside>
+    </div>
+<script>
+      let currentMeds = [];
+      let lastAnalyze = null;
+
       window.onload = function () {
         const savedNick = localStorage.getItem("safepill_nickname");
-        if (savedNick) showMainScreen(savedNick);
+        if (savedNick) {
+          showMainScreen(savedNick);
+        }
       };
 
-      function handleLogin() {
+      async function handleLogin() {
         const nick = document.getElementById("nickname").value.trim();
         const pin = document.getElementById("pin").value.trim();
+        
         if (!nick || !pin) {
           alert("정보를 모두 입력해주세요!");
           return;
         }
-        localStorage.setItem("safepill_nickname", nick);
-        showMainScreen(nick);
+        
+        if (pin.length !== 4) {
+          alert("PIN 번호는 반드시 4자리를 입력해주세요!");
+          return;
+        }
+
+        try {
+          const response = await fetch("http://127.0.0.1:8000/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ nickname: nick, pin: pin })
+          });
+          
+          const result = await response.json();
+          if (result.status === "success") {
+            localStorage.setItem("safepill_nickname", nick);
+            alert(result.message);
+            showMainScreen(nick);
+          } else {
+            alert(result.message);
+          }
+        } catch (error) {
+          alert("서버 통신 오류! 백엔드가 켜져있는지 확인하세요.");
+        }
       }
 
       function handleLogout() {
@@ -274,80 +321,78 @@
       function showMainScreen(nickname) {
         document.getElementById("login-section").style.display = "none";
         document.getElementById("main-section").style.display = "block";
+        document.getElementById("side-panel").style.display = "block";
         document.getElementById("user-greeting").innerText = nickname;
-        renderMeds(); // ✅ 추가
+        loadMeds(nickname);
       }
-// ====== [약통 저장 기능] 시작 ======
-function medsKey(nick){ return `safepill_meds_${nick}`; }
 
-function getNick(){
-  return localStorage.getItem("safepill_nickname");
-}
+      async function loadMeds(nickname) {
+        try {
+          const response = await fetch(`http://127.0.0.1:8000/meds/${nickname}`);
+          const data = await response.json();
+          currentMeds = data.meds || [];
+          renderMeds();
+        } catch (error) {
+          console.error("약통 불러오기 실패");
+        }
+      }
 
-function loadMeds(){
-  const nick = getNick();
-  if(!nick) return [];
-  try { return JSON.parse(localStorage.getItem(medsKey(nick)) || "[]"); }
-  catch { return []; }
-}
+      async function addMed() {
+        const input = document.getElementById("med-input");
+        const val = input.value.trim();
+        const nick = localStorage.getItem("safepill_nickname");
+        
+        if(!val || !nick) return;
 
-function saveMeds(meds){
-  const nick = getNick();
-  if(!nick) return;
-  localStorage.setItem(medsKey(nick), JSON.stringify(meds));
-}
+        try {
+          await fetch("http://127.0.0.1:8000/add_med", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ nickname: nick, medicine_name: val })
+          });
+          input.value = "";
+          loadMeds(nick);
+        } catch (error) {
+          alert("약 추가 실패!");
+        }
+      }
 
-function renderMeds(){
-  const ul = document.getElementById("med-list");
-  if(!ul) return;
-  const meds = loadMeds();
-  ul.innerHTML = "";
-  if(meds.length === 0){
-    ul.innerHTML = `<li style="color:#777;font-size:13px;">저장된 약이 없습니다.</li>`;
-    return;
-  }
-  meds.forEach((m, i) => {
-    const li = document.createElement("li");
-    li.style.display="flex";
-    li.style.justifyContent="space-between";
-    li.style.alignItems="center";
-    li.style.padding="8px 10px";
-    li.style.border="1px solid #eee";
-    li.style.borderRadius="10px";
-    li.style.marginBottom="8px";
-    li.innerHTML = `
-      <span>${m}</span>
-      <button style="border:none;background:#f3f4f6;border-radius:8px;padding:6px 10px;cursor:pointer;"
-              onclick="removeMed(${i})">삭제</button>`;
-    ul.appendChild(li);
-  });
-}
+      async function removeMed(medName) {
+        const nick = localStorage.getItem("safepill_nickname");
+        try {
+          await fetch("http://127.0.0.1:8000/delete_med", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ nickname: nick, medicine_name: medName })
+          });
+          loadMeds(nick);
+        } catch (error) {
+          alert("약 삭제 실패!");
+        }
+      }
 
-function addMed(){
-  const input = document.getElementById("med-input");
-  const val = (input.value || "").trim();
-  if(!val) return;
-  let meds = loadMeds();
-  meds.push(val);
-  meds = [...new Set(meds)]; // 중복 제거
-  saveMeds(meds);
-  input.value = "";
-  renderMeds();
-}
+      function renderMeds() {
+        const ul = document.getElementById("med-list");
+        ul.innerHTML = "";
+        if (currentMeds.length === 0) {
+          ul.innerHTML = `<li style="color:#777;font-size:13px;">저장된 약이 없습니다.</li>`;
+          return;
+        }
+        currentMeds.forEach(m => {
+          const li = document.createElement("li");
+          li.style.cssText = "display:flex; justify-content:space-between; align-items:center; padding:8px 10px; border:1px solid #eee; border-radius:10px; margin-bottom:8px;";
+          li.innerHTML = `
+            <span>${m}</span>
+            <button style="border:none;background:#f3f4f6;border-radius:8px;padding:6px 10px;cursor:pointer;"
+                    onclick="removeMed('${m}')">삭제</button>`;
+          ul.appendChild(li);
+        });
+      }
 
-function removeMed(idx){
-  let meds = loadMeds();
-  meds.splice(idx, 1);
-  saveMeds(meds);
-  renderMeds();
-}
-// ====== [약통 저장 기능] 끝 ======
-      // [핵심] 여러 장의 이미지 미리보기 함수
       function handleMultiplePreviews(event, containerId) {
         const container = document.getElementById(containerId);
-        container.innerHTML = ""; // 기존 미리보기 초기화
+        container.innerHTML = ""; 
         const files = event.target.files;
-
         if (files) {
           Array.from(files).forEach((file) => {
             const reader = new FileReader();
@@ -362,30 +407,17 @@ function removeMed(idx){
         }
       }
 
-      // 백엔드 연동 로직 (모든 파일 전송)
       async function confirmStep() {
-        const currentPillFiles = document.getElementById("current-pill").files;
         const newPillFiles = document.getElementById("new-pill").files;
-
         if (newPillFiles.length === 0) {
           alert("새로 먹을 약 사진을 최소 1장 첨부해주세요!");
           return;
         }
 
         const formData = new FormData();
-
-        // 새로 먹을 약 사진들을 모두 FormData에 담기
-        Array.from(newPillFiles).forEach((file, index) => {
-          formData.append(`image`, file); // 백엔드 설정에 따라 key 이름 확인 필요
-        });
-
-        // 현재 복용 중인 약도 사진이 있다면 전송 (백엔드에서 처리 가능하다면)
-        Array.from(currentPillFiles).forEach((file) => {
-          formData.append(`current_pill_images`, file);
-        });
-
-        const currentDrugs = loadMeds();
-        currentDrugs.forEach(d => formData.append("current_drugs", d));
+        Array.from(newPillFiles).forEach(file => formData.append(`image`, file));
+        
+        currentMeds.forEach(d => formData.append("current_drugs", d));
 
         const btn = document.getElementById("analyze-btn");
         const originalBtnText = btn.innerText;
@@ -402,40 +434,124 @@ function removeMed(idx){
           const result = await response.json();
 
           document.getElementById("result-container").style.display = "block";
-          const warningBox = document.querySelector(".warning-box");
-          const statusText = document.querySelector(".status-text");
-          const trafficLight = document.querySelector(".traffic-light");
-          const reasonText = document.getElementById("reason-text");
-          const descText = document.getElementById("personalized-desc");
-
-          // 결과에 따른 색상 업데이트 로직
-          if (result.risk === "위험") {
-            warningBox.style.borderColor = "#e74c3c";
-            warningBox.style.backgroundColor = "#fff5f5";
-            statusText.style.color = "#e74c3c";
-            statusText.innerText = `병용 위험! (${result.corrected_name})`;
-            trafficLight.innerText = "🔴";
-          } else if (result.risk === "주의") {
-            warningBox.style.borderColor = "#f1c40f";
-            warningBox.style.backgroundColor = "#fffdf0";
-            statusText.style.color = "#d4ac0d";
-            statusText.innerText = `주의 필요! (${result.corrected_name})`;
-            trafficLight.innerText = "🟡";
-          } else {
-            warningBox.style.borderColor = "#2ecc71";
-            warningBox.style.backgroundColor = "#f0fdf4";
-            statusText.style.color = "#2ecc71";
-            statusText.innerText = `특이사항 없음 (${result.corrected_name})`;
-            trafficLight.innerText = "🔵";
-          }
-
-          reasonText.innerText = result.reason;
-          descText.innerText = result.explanation;
+          lastAnalyze = result;
+          updateResultUI(result);
         } catch (error) {
           alert("서버 연결 실패!");
         } finally {
           btn.innerText = originalBtnText;
           btn.disabled = false;
+        }
+      }
+
+      function updateResultUI(result) {
+        const warningBox = document.querySelector(".warning-box");
+        const statusText = document.querySelector(".status-text");
+        const trafficLight = document.querySelector(".traffic-light");
+        const reasonText = document.getElementById("reason-text");
+        const descText = document.getElementById("personalized-desc");
+
+        const panelCorrected = document.getElementById("panel-corrected");
+        const panelOcr = document.getElementById("panel-ocr");
+        const panelRule = document.getElementById("panel-rule");
+        const panelConf = document.getElementById("panel-confidence");
+        const panelCand = document.getElementById("panel-candidates");
+        const panelIng = document.getElementById("panel-ingredients");
+
+        panelCorrected.innerText = result.corrected_name || "-";
+        panelOcr.innerText = result.ocr_text || "-";
+        panelRule.innerText = result.rule_corrected || "-";
+
+        const conf = result.match_confidence ?? 0;
+        const confPct = conf <= 1 ? (conf * 100) : conf;
+        panelConf.innerText = `신뢰도: ${confPct.toFixed(1)}%`;
+        document.getElementById("panel-note").innerText = result.match_note || "";
+
+        if (Array.isArray(result.active_ingredients) && result.active_ingredients.length > 0) {
+          panelIng.innerText = result.active_ingredients.join(", ");
+        } else {
+          panelIng.innerText = "-";
+        }
+
+        const btnWrap = document.getElementById("panel-candidate-buttons");
+        const hint = document.getElementById("panel-candidate-hint");
+        btnWrap.innerHTML = "";
+
+        const cands = Array.isArray(result.match_candidates) ? result.match_candidates.slice(0, 8) : [];
+        panelCand.innerText = cands.length ? cands.join(", ") : "-";
+
+        const needs = !!result.needs_confirm;
+        if (needs && cands.length) {
+          btnWrap.style.display = "flex";
+          hint.style.display = "block";
+          cands.forEach((name) => {
+            const b = document.createElement("button");
+            b.className = "chip";
+            b.type = "button";
+            b.innerText = name;
+            b.onclick = () => applyCandidate(name);
+            btnWrap.appendChild(b);
+          });
+        } else {
+          btnWrap.style.display = "none";
+          hint.style.display = "none";
+        }
+
+        if (result.risk === "위험") {
+          warningBox.style.borderColor = "#e74c3c";
+          warningBox.style.backgroundColor = "#fff5f5";
+          statusText.style.color = "#e74c3c";
+          statusText.innerText = `병용 위험!`;
+          trafficLight.innerText = "🔴";
+        } else if (result.risk === "주의") {
+          warningBox.style.borderColor = "#f1c40f";
+          warningBox.style.backgroundColor = "#fffdf0";
+          statusText.style.color = "#d4ac0d";
+          statusText.innerText = `주의 필요!`;
+          trafficLight.innerText = "🟡";
+        } else {
+          warningBox.style.borderColor = "#2ecc71";
+          warningBox.style.backgroundColor = "#f0fdf4";
+          statusText.style.color = "#2ecc71";
+          statusText.innerText = `특이사항 없음`;
+          trafficLight.innerText = "🔵";
+        }
+
+        reasonText.innerText = result.reason || "";
+        descText.innerText = result.explanation || "";
+      }
+
+      async function applyCandidate(name) {
+        const btnWrap = document.getElementById("panel-candidate-buttons");
+        Array.from(btnWrap.querySelectorAll("button")).forEach((b) => (b.disabled = true));
+
+        try {
+          const res = await fetch("http://127.0.0.1:8000/analyze_select", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ selected_name: name, current_drugs: currentMeds }),
+          });
+          const data = await res.json();
+          if (!res.ok || data.status === "fail") {
+            alert("후보 적용 실패: " + (data.message || "server error"));
+            return;
+          }
+
+          const merged = {
+            ...(lastAnalyze || {}),
+            corrected_name: data.corrected_name,
+            risk: data.risk,
+            reason: data.reason,
+            explanation: data.explanation,
+            match_note: data.match_note,
+            needs_confirm: false,
+          };
+          lastAnalyze = merged;
+          updateResultUI(merged);
+        } catch (e) {
+          alert("서버 연결 실패!");
+        } finally {
+          Array.from(btnWrap.querySelectorAll("button")).forEach((b) => (b.disabled = false));
         }
       }
     </script>

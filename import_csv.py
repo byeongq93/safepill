@@ -10,12 +10,11 @@ def import_dur_data():
         print(f"❌ 파일 읽기 오류: {e}")
         return
 
-    # 컬럼명 공백 제거
     df.columns = df.columns.str.strip()
     
     def clean_drug_name(name):
         if pd.isna(name): return ""
-        # '제클라정(어쩌고)' -> '제클라정' 으로 자름
+    
         return str(name).split('(')[0].strip()
 
     df['clean_drug_a'] = df['제품명1'].apply(clean_drug_name)
