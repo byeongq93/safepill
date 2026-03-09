@@ -38,7 +38,7 @@ def correct_drug_name(raw_text: str) -> str:
         return "판콜"
     if "타이레놀" in raw_text:
         return "타이레놀"
-    if "와파린" in raw_text or "혈전" in raw_text:
+    if "와파린" in raw_text or "warfarin" in raw_text.lower() or "쿠마딘" in raw_text:
         return "와파린"
 
     # 성분표 사진일 가능성 (오타 포함)

@@ -4,6 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SafePill - 복약 안전 가이드</title>
+    <meta name="theme-color" content="#2ecc71" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="SafePill" />
+    <link rel="manifest" href="/static/manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="/static/icons/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/icons/favicon-32.png" />
     <style>
       :root {
         --primary-color: #2ecc71;
@@ -25,24 +32,21 @@
       }
       .container {
         width: 100%;
-        max-width: 400px;
+        max-width: 460px;
         background: white;
         border-radius: 20px;
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         padding: 20px;
         box-sizing: border-box;
       }
-
-      
       .page {
         width: 100%;
-        max-width: 1100px;
+        max-width: 460px;
         display: flex;
         gap: 20px;
         align-items: flex-start;
         justify-content: center;
       }
-
       .side-panel {
         flex: 1;
         min-width: 320px;
@@ -51,18 +55,16 @@
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
         padding: 20px;
         box-sizing: border-box;
-        display: none;
+        display: none !important;
         position: sticky;
         top: 24px;
       }
-
       .side-title {
         font-size: 12px;
         color: #555;
         font-weight: 800;
         margin-top: 14px;
       }
-
       .side-drug {
         font-size: 18px;
         font-weight: 800;
@@ -71,7 +73,6 @@
         word-break: keep-all;
         overflow-wrap: anywhere;
       }
-
       .side-box {
         margin-top: 10px;
         padding: 12px;
@@ -79,8 +80,12 @@
         border-radius: 12px;
         background: #fafafa;
       }
-
-      .chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+      .chip-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 8px;
+      }
       .chip {
         border: 1px solid #e5e7eb;
         background: #fff;
@@ -90,15 +95,20 @@
         cursor: pointer;
         transition: 0.15s;
       }
-      .chip:hover { transform: translateY(-1px); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-      .chip:disabled { cursor: not-allowed; opacity: 0.6; }
+      .chip:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      }
+      .chip:disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
+      }
       .hint {
         font-size: 12px;
         color: #666;
         line-height: 1.45;
         margin-top: 8px;
       }
-
       .muted {
         font-size: 12px;
         color: #666;
@@ -106,19 +116,38 @@
         margin-top: 6px;
         overflow-wrap: anywhere;
       }
-
       @media (max-width: 900px) {
-        .page { flex-direction: column; }
-        .container { max-width: 100%; }
-        .side-panel { position: static; width: 100%; }
+        .page {
+          flex-direction: column;
+        }
+        .container {
+          max-width: 100%;
+        }
+        .side-panel {
+          position: static;
+          width: 100%;
+        }
       }
-
       .logo {
-        font-size: 24px;
-        font-weight: bold;
-        color: var(--primary-color);
-        margin-bottom: 30px;
+        margin-top: -6px;
+        margin-bottom: 10px;
         text-align: center;
+      }
+      .logo img {
+        width: min(100%, 240px);
+        height: auto;
+        display: inline-block;
+      }
+      .auth-logo-standalone {
+        width: 100%;
+        text-align: center;
+        margin: 0 auto 8px;
+        flex: 0 0 auto;
+      }
+      .auth-logo-standalone img {
+        width: min(100%, 250px);
+        height: auto;
+        display: inline-block;
       }
       input {
         width: 100%;
@@ -144,91 +173,549 @@
         background: #95a5a6;
         cursor: not-allowed;
       }
-
-      #login-section { text-align: center; }
-      #main-section { display: none; }
-
+      .btn-subtle {
+        width: 100%;
+        padding: 11px;
+        background: #f3f4f6;
+        color: #111827;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 700;
+      }
+      .btn-subtle:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+      #login-section {
+        min-height: calc(100vh - 140px);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        text-align: center;
+        gap: 18px;
+        padding-top: 34px;
+      }
+      .auth-card {
+        width: 100%;
+        max-width: 520px;
+        margin: 0 auto;
+        align-self: center;
+        box-sizing: border-box;
+        padding: 22px 26px 24px;
+        border: 1px solid #eef2f7;
+        border-radius: 24px;
+        background: linear-gradient(180deg, #ffffff 0%, #fbfcff 100%);
+        box-shadow: 0 14px 40px rgba(15, 23, 42, 0.08);
+      }
+      .auth-title {
+        margin: 0 0 6px;
+        font-size: 18px;
+        font-weight: 800;
+        color: #0f172a;
+      }
+      .auth-subtitle {
+        margin: 0 0 14px;
+        font-size: 14px;
+        color: #5f6b7a;
+        line-height: 1.5;
+      }
+      #main-section {
+        display: none;
+      }
       .section-box {
         border-radius: 12px;
         padding: 15px;
         margin-bottom: 15px;
         border: 1px solid #eee;
       }
-      .trust-box { background: #f0fdf4; border-left: 5px solid var(--primary-color); }
-      .trust-label { font-size: 12px; color: #166534; font-weight: bold; }
+      .trust-box {
+        background: #f0fdf4;
+        border-left: 5px solid var(--primary-color);
+      }
+      .trust-label {
+        font-size: 12px;
+        color: #166534;
+        font-weight: bold;
+      }
+      .upload-section {
+        margin-top: 20px;
+        border-top: 1px solid #eee;
+        padding-top: 20px;
+      }
+      .file-box {
+        background: #f8f9fa;
+        padding: 12px;
+        border-radius: 12px;
+        margin-bottom: 15px;
+        border: 1px dashed #ccc;
+      }
+      .file-box label {
+        font-weight: bold;
+        font-size: 14px;
+        color: #333;
+        display: block;
+        margin-bottom: 8px;
+      }
+      .section-subtitle {
+        font-size: 12px;
+        color: #6b7280;
+        font-weight: 700;
+        margin-top: 10px;
+      }
+      .preview-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        margin-top: 10px;
+      }
+      .preview-img {
+        width: 100%;
+        height: 70px;
+        object-fit: cover;
+        border-radius: 6px;
+        border: 1px solid #ddd;
+      }
+      .mini-status {
+        margin-top: 10px;
+        font-size: 12px;
+        line-height: 1.5;
+        color: #374151;
+        background: #f9fafb;
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        padding: 10px;
+        display: none;
+      }
+      .import-review {
+        margin-top: 10px;
+        display: grid;
+        gap: 10px;
+      }
+      .import-card {
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        background: #fff;
+        padding: 10px;
+      }
+      .import-card-title {
+        font-size: 13px;
+        font-weight: 800;
+        color: #111827;
+      }
+      .import-card-meta {
+        font-size: 12px;
+        color: #6b7280;
+        margin-top: 6px;
+        line-height: 1.45;
+        overflow-wrap: anywhere;
+      }
+      .pill-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border-radius: 999px;
+        padding: 6px 10px;
+        font-size: 12px;
+        font-weight: 700;
+        margin-top: 8px;
+      }
+      .pill-badge.ok {
+        background: #ecfdf5;
+        color: #047857;
+      }
+      .pill-badge.warn {
+        background: #fffbeb;
+        color: #b45309;
+      }
 
-      .upload-section { margin-top: 20px; border-top: 1px solid #eee; padding-top: 20px; }
-      .file-box { background: #f8f9fa; padding: 12px; border-radius: 12px; margin-bottom: 15px; border: 1px dashed #ccc; }
-      .file-box label { font-weight: bold; font-size: 14px; color: #333; display: block; margin-bottom: 8px; }
+      .summary-lines {
+        margin: 10px 0 0 0;
+        padding-left: 18px;
+        color: #444;
+        font-size: 14px;
+        line-height: 1.65;
+      }
+      .summary-lines li {
+        margin-bottom: 6px;
+      }
+      .action-box {
+        background: #f8fffb;
+        border: 1px solid #d1fae5;
+      }
+      .action-list {
+        margin: 10px 0 0 0;
+        padding-left: 22px;
+        color: #111827;
+        font-size: 14px;
+        line-height: 1.7;
+      }
+      .action-list li {
+        margin-bottom: 6px;
+      }
+      .disclaimer-box {
+        background: #fffbeb;
+        border: 1px solid #f5d76e;
+      }
+      .disclaimer-text {
+        margin: 10px 0 0 0;
+        color: #444;
+        font-size: 14px;
+        line-height: 1.8;
+      }
 
-      .preview-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
-      .preview-img { width: 100%; height: 70px; object-fit: cover; border-radius: 6px; border: 1px solid #ddd; }
+      #result-container {
+        display: none;
+        margin-top: 20px;
+      }
+      .warning-box {
+        text-align: center;
+      }
+      .traffic-light {
+        font-size: 40px;
+        margin: 10px 0;
+      }
+      .status-text {
+        font-size: 18px;
+        font-weight: bold;
+      }
+      .desc-box {
+        background: #fff;
+        line-height: 1.6;
+      }
+      .logout-btn {
+        background: none;
+        border: none;
+        color: #888;
+        text-decoration: underline;
+        cursor: pointer;
+        float: right;
+        font-size: 12px;
+      }
 
-      #result-container { display: none; margin-top: 20px; }
-      .warning-box { text-align: center; }
-      .traffic-light { font-size: 40px; margin: 10px 0; }
-      .status-text { font-size: 18px; font-weight: bold; }
-      .desc-box { background: #fff; line-height: 1.6; }
-
-      .logout-btn { background: none; border: none; color: #888; text-decoration: underline; cursor: pointer; float: right; font-size: 12px; }
+      .compact-details {
+        margin-top: 8px;
+        border: 1px solid #e5e7eb;
+        background: #f9fafb;
+        border-radius: 10px;
+        padding: 8px 10px;
+      }
+      .compact-details summary {
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 800;
+        color: #16a34a;
+      }
+      .compact-details-body {
+        font-size: 12px;
+        color: #374151;
+        line-height: 1.6;
+        margin-top: 8px;
+        overflow-wrap: anywhere;
+        white-space: pre-wrap;
+      }
+      .mini-label {
+        font-size: 12px;
+        font-weight: 800;
+        color: #374151;
+      }
+      .ingredient-proof-grid {
+        display: grid;
+        gap: 10px;
+        margin-top: 12px;
+      }
+      .ingredient-proof-item {
+        border: 1px solid #e5e7eb;
+        background: #f9fafb;
+        border-radius: 12px;
+        padding: 10px 12px;
+      }
+      .ingredient-proof-label {
+        font-size: 12px;
+        font-weight: 800;
+        color: #374151;
+      }
+      .ingredient-proof-text {
+        margin-top: 6px;
+        font-size: 13px;
+        line-height: 1.6;
+        color: #111827;
+        overflow-wrap: anywhere;
+      }
+      .source-list {
+        display: grid;
+        gap: 8px;
+        margin-top: 8px;
+      }
+      .source-item {
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        background: #fff;
+        padding: 8px 10px;
+      }
+      .source-title {
+        font-size: 12px;
+        font-weight: 800;
+        color: #111827;
+      }
+      .source-text {
+        font-size: 12px;
+        color: #4b5563;
+        line-height: 1.55;
+        margin-top: 4px;
+        overflow-wrap: anywhere;
+      }
+      .text-link-btn {
+        margin-top: 8px;
+        padding: 0;
+        background: none;
+        border: none;
+        color: #16a34a;
+        font-size: 12px;
+        font-weight: 800;
+        cursor: pointer;
+      }
+      .text-link-btn:hover {
+        text-decoration: underline;
+      }
+      .med-row {
+        border: 1px solid #eee;
+        border-radius: 10px;
+        margin-bottom: 8px;
+        padding: 10px;
+        background: #fff;
+      }
+      .med-row-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+      }
+      .med-toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        margin-top: 10px;
+        flex-wrap: wrap;
+      }
+      .med-toolbar-actions {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+      .btn-mini {
+        border: none;
+        background: #eef2ff;
+        color: #374151;
+        border-radius: 8px;
+        padding: 6px 10px;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .btn-mini:hover {
+        filter: brightness(0.98);
+      }
+      .med-toolbar-status {
+        font-size: 12px;
+        color: #4b5563;
+        font-weight: 700;
+      }
+      .med-select-wrap {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        flex: 1;
+      }
+      .med-checkbox {
+        width: 18px;
+        height: 18px;
+        margin-top: 2px;
+        accent-color: #16a34a;
+        cursor: pointer;
+        flex: 0 0 auto;
+      }
+      .action-row {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 10px;
+      }
+      .inline-input {
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 0;
+        box-sizing: border-box;
+      }
     </style>
   </head>
   <body>
     <div class="page">
       <div class="container">
-      <div id="login-section">
-        <div class="logo">🌿 세이프필 (Safe Pill)</div>
-        <p>환영합니다! 닉네임과 PIN을 입력해주세요.</p>
-        <input type="text" id="nickname" placeholder="닉네임 입력 (예: 홍길동)" />
-        <input type="password" id="pin" placeholder="PIN 번호 4자리 입력" maxlength="4" />
-        <button class="btn-primary" onclick="handleLogin()">로그인 / 3초 회원가입</button>
-      </div>
-
-      <div id="main-section">
-        <button class="logout-btn" onclick="handleLogout()">로그아웃</button>
-        <div class="logo" style="font-size: 18px; margin-bottom: 15px; text-align: left">
-          🌿 <span id="user-greeting"></span>님의 복약 가이드
+        <div id="login-section">
+          <div class="auth-logo-standalone"><img src="/static/icons/logo-login.png" alt="SafePill 로고" /></div>
+          <div class="auth-card">
+            <p class="auth-title">환영합니다! 닉네임과 PIN을 입력해주세요.</p>
+            <p class="auth-subtitle">로그인하면 내 약과 새로 먹을 약을 성분 기준으로 비교할 수 있어요.</p>
+            <input type="text" id="nickname" placeholder="닉네임 입력 (예: 홍길동)" />
+            <input type="password" id="pin" placeholder="PIN 번호 4자리 입력" maxlength="4" />
+            <button class="btn-primary" onclick="handleLogin()">로그인 / 3초 회원가입</button>
+          </div>
         </div>
 
-        <div class="section-box trust-box">
-          <span class="trust-label">✓ 공공데이터 연동 완료</span>
-          <p style="margin: 5px 0 0; font-size: 13px">의약품안전관리원 데이터를 기반으로 분석합니다.</p>
-        </div>
+        <div id="main-section">
+          <button class="logout-btn" onclick="handleLogout()">로그아웃</button>
+          <div class="logo" style="font-size: 18px; margin-bottom: 15px; text-align: left">
+            🌿 <span id="user-greeting"></span>님의 복약 가이드
+          </div>
 
-        <div class="upload-section">
-          <div class="file-box">
-            <label>📦 1. 현재 복용 중인 약 (내 약통)</label>
-            <div style="margin-top:10px;">
-              <input id="med-input" type="text" placeholder="복용 중인 약 이름 입력 (예: 와파린)" />
-              <button class="btn-primary" style="margin-top:8px; padding: 10px;" onclick="addMed()">약통에 영구 추가</button>
-              <ul id="med-list" style="list-style:none; padding-left:0; margin-top:10px;"></ul>
+          <div class="section-box trust-box">
+            <span class="trust-label">✓ 공공데이터 연동 완료</span>
+            <p style="margin: 5px 0 0; font-size: 13px">의약품안전관리원 데이터를 기반으로 분석합니다.</p>
+          </div>
+
+          <div class="upload-section">
+            <div class="file-box">
+              <label>📦 1. 현재 복용 중인 약 (내 약통)</label>
+              <input id="med-input" type="text" placeholder="복용 중인 약 이름 입력" />
+              <button class="btn-subtle" onclick="addMed()">직접 입력해서 추가</button>
+
+              <div class="section-subtitle">사진을 선택하거나 촬영한 뒤 아래 버튼을 눌러 약통 등록을 진행하세요.</div>
+              <div class="action-row">
+                <button type="button" class="btn-subtle" onclick="openHiddenPicker('current-pill-images')">사진 선택 / 카메라</button>
+                <button type="button" class="btn-mini" onclick="clearImageSelection('current')">선택 초기화</button>
+              </div>
+              <input
+                type="file"
+                id="current-pill-images"
+                accept="image/*"
+                multiple
+                style="display:none"
+                onchange="handleMultiplePreviews(event, 'preview-current-container', 'current')"
+              />
+              <div id="preview-current-container" class="preview-container"></div>
+              <button id="current-import-btn" class="btn-primary" style="margin-top: 8px; padding: 10px" onclick="registerCurrentMedsFromImages()">
+                사진으로 약품 등록
+              </button>
+              <div id="current-auto-status" class="mini-status"></div>
+              <div id="current-import-status" class="mini-status"></div>
+              <div id="current-import-review" class="import-review"></div>
+
+              <div class="section-subtitle">비교에 사용할 현재 복용 약 선택</div>
+              <div id="selected-med-summary" class="muted">저장된 약이 없습니다.</div>
+              <details class="compact-details" id="current-med-library">
+                <summary id="current-med-library-summary">현재 복용 약 목록 펼치기</summary>
+                <div class="med-toolbar">
+                  <div class="med-toolbar-actions">
+                    <button type="button" class="btn-mini" onclick="toggleAllCurrentMeds(true)">전체 선택</button>
+                    <button type="button" class="btn-mini" onclick="toggleAllCurrentMeds(false)">전체 해제</button>
+                  </div>
+                  <div class="med-toolbar-status" id="med-toolbar-status">비교 대상 0개 선택</div>
+                </div>
+                <ul id="med-list" style="list-style: none; padding-left: 0; margin-top: 12px"></ul>
+              </details>
+            </div>
+
+            <div class="file-box">
+              <label>💊 2. 새로 먹을 약 사진 (분석 대상)</label>
+              <div class="section-subtitle">사진을 선택하거나 촬영한 뒤 아래 분석 버튼을 눌러 진행하세요.</div>
+              <div class="action-row">
+                <button type="button" class="btn-subtle" onclick="openHiddenPicker('new-pill')">사진 선택 / 카메라</button>
+                <button type="button" class="btn-mini" onclick="clearImageSelection('new')">선택 초기화</button>
+              </div>
+              <input type="file" id="new-pill" accept="image/*" multiple style="display:none" onchange="handleMultiplePreviews(event, 'preview-new-container', 'new')" />
+              <div id="preview-new-container" class="preview-container"></div>
+              <div id="new-auto-status" class="mini-status"></div>
+            </div>
+
+            <button id="analyze-btn" class="btn-primary" onclick="confirmStep()">AI 분석 시작하기 🚀</button>
+          </div>
+
+          <div id="result-container">
+            <div class="section-box warning-box">
+              <div class="status-text">분석 결과</div>
+              <div class="traffic-light">⚪</div>
+              <p id="reason-text" style="font-size: 13px; margin: 0">결과 데이터 로딩 중...</p>
+            </div>
+            <div class="section-box" id="summary-card">
+              <span style="font-weight: bold">📋 비교 요약</span>
+              <div class="ingredient-proof-grid">
+                <div class="ingredient-proof-item">
+                  <div class="ingredient-proof-label">새 약 이름(있으면 표시)</div>
+                  <div class="ingredient-proof-text" id="summary-new-name">-</div>
+                </div>
+                <div class="ingredient-proof-item">
+                  <div class="ingredient-proof-label">현재 복용 약</div>
+                  <div class="ingredient-proof-text" id="summary-current-names">-</div>
+                </div>
+                <div class="ingredient-proof-item">
+                  <div class="ingredient-proof-label">새 약 유효성분</div>
+                  <div class="ingredient-proof-text" id="summary-new-ingredients">-</div>
+                </div>
+                <div class="ingredient-proof-item">
+                  <div class="ingredient-proof-label">공통/중복 성분</div>
+                  <div class="ingredient-proof-text" id="summary-overlap">-</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="section-box desc-box" id="ingredient-proof-box" style="display: none">
+              <span style="font-weight: bold">🔎 이번 비교에 사용한 기준</span>
+              <div class="ingredient-proof-grid">
+                <div class="ingredient-proof-item">
+                  <div class="ingredient-proof-label">선택한 현재 복용 약</div>
+                  <div class="ingredient-proof-text" id="evidence-current-labels">-</div>
+                </div>
+                <div class="ingredient-proof-item">
+                  <div class="ingredient-proof-label">현재 복용 약 유효성분</div>
+                  <div class="ingredient-proof-text" id="evidence-current-ingredients">-</div>
+                </div>
+                <div class="ingredient-proof-item">
+                  <div class="ingredient-proof-label">새로 먹을 약 유효성분</div>
+                  <div class="ingredient-proof-text" id="evidence-new-ingredients">-</div>
+                </div>
+                <div class="ingredient-proof-item">
+                  <div class="ingredient-proof-label">공통/중복 성분</div>
+                  <div class="ingredient-proof-text" id="evidence-overlap-ingredients">-</div>
+                </div>
+                <div class="ingredient-proof-item">
+                  <div class="ingredient-proof-label">추가 주의 조합</div>
+                  <div class="ingredient-proof-text" id="evidence-rule-matches">-</div>
+                </div>
+                <div class="ingredient-proof-item">
+                  <div class="ingredient-proof-label">이번 비교 방식</div>
+                  <div class="ingredient-proof-text" id="evidence-compare-basis">-</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="section-box desc-box">
+              <span style="font-weight: bold">💡 AI 약사 요약</span>
+              <p id="personalized-desc" style="font-size: 14px; color: #444; margin-top: 5px"></p>
+              <ul id="summary-line-list" class="summary-lines"></ul>
+            </div>
+
+            <div class="section-box desc-box" id="ingredient-explain-box" style="display: none">
+              <span style="font-weight: bold">🧪 유효성분 쉬운 해석</span>
+              <div id="ingredient-explain-list" class="ingredient-proof-grid"></div>
+            </div>
+
+            <div class="section-box action-box" id="action-box">
+              <span style="font-weight: bold">✅ 권장 사항</span>
+              <ul id="action-list" class="action-list"></ul>
+            </div>
+
+            <div class="section-box disclaimer-box" id="disclaimer-box">
+              <span style="font-weight: bold">⚠️ 안내사항</span>
+              <p class="disclaimer-text">세이프필은 식약처 데이터 기반의 AI 보조 서비스입니다. 의학적 진단이나 처방을 대신하지 않으며, 실제 복약 전 반드시 전문가(의사·약사)와 상담하시기 바랍니다.</p>
             </div>
           </div>
-
-          <div class="file-box">
-            <label>💊 2. 새로 먹을 약 사진 (분석 대상)</label>
-            <input type="file" id="new-pill" accept="image/*" multiple onchange="handleMultiplePreviews(event, 'preview-new-container')" />
-            <div id="preview-new-container" class="preview-container"></div>
-          </div>
-
-          <button id="analyze-btn" class="btn-primary" onclick="confirmStep()">AI 분석 시작하기 🚀</button>
-        </div>
-
-        <div id="result-container">
-          <div class="section-box warning-box">
-            <div class="status-text">분석 결과</div>
-            <div class="traffic-light">⚪</div>
-            <p id="reason-text" style="font-size: 13px; margin: 0">결과 데이터 로딩 중...</p>
-          </div>
-          <div class="section-box desc-box">
-            <span style="font-weight: bold">💡 AI 약사 요약</span>
-            <p id="personalized-desc" style="font-size: 14px; color: #444; margin-top: 5px"></p>
-          </div>
         </div>
       </div>
-    </div>
 
-    
       <aside class="side-panel" id="side-panel">
         <div class="logo" style="font-size: 18px; margin: 0; text-align: left">📌 분석 상세</div>
 
@@ -238,9 +725,21 @@
           <div class="muted" id="panel-note">로그인 후 분석하면 여기로 길게 표시돼요.</div>
         </div>
 
+        <div class="side-title">현재 복용 약(비교에 사용됨)</div>
+        <div class="side-box">
+          <div class="muted" id="panel-current-meds-summary">-</div>
+          <details class="compact-details" id="panel-current-meds-details" style="display: none">
+            <summary>현재 복용 약 상세 보기</summary>
+            <div id="panel-current-meds" class="source-list"></div>
+          </details>
+          <div class="hint" id="panel-current-note" style="display: none"></div>
+        </div>
+
         <div class="side-title">OCR 원문</div>
         <div class="side-box">
-          <div class="muted" id="panel-ocr">-</div>
+          <div class="muted" id="panel-ocr-preview">-</div>
+          <button type="button" class="text-link-btn" id="panel-ocr-toggle" style="display: none">원문 펼치기</button>
+          <div class="muted" id="panel-ocr-full" style="display: none; white-space: pre-wrap"></div>
         </div>
 
         <div class="side-title">규칙 기반 교정(중간 결과)</div>
@@ -253,24 +752,60 @@
           <div class="muted" id="panel-confidence">-</div>
         </div>
 
-        <div class="side-title">유효성분(추출)</div>
+        <div class="side-title">현재 복용 약 유효성분</div>
+        <div class="side-box">
+          <div class="muted" id="panel-current-ingredients">-</div>
+        </div>
+
+        <div class="side-title">새 약 유효성분(추출)</div>
         <div class="side-box">
           <div class="muted" id="panel-ingredients">-</div>
         </div>
 
-        <div class="side-title">후보 약품명(필요 시)</div>
+        <div class="side-title">성분 대조 결과</div>
+        <div class="side-box">
+          <div class="muted" id="panel-overlap-ingredients">-</div>
+        </div>
+
+        <div class="side-title">추가 성분 주의 조합</div>
+        <div class="side-box">
+          <div class="muted" id="panel-ingredient-rules">-</div>
+        </div>
+
+        <div class="side-title">이번 비교 방식</div>
+        <div class="side-box">
+          <div class="muted" id="panel-compare-basis">-</div>
+        </div>
+
+        <div class="side-title">후보 약품명(선택사항)</div>
         <div class="side-box">
           <div class="muted" id="panel-candidates">-</div>
-          <div id="panel-candidate-buttons" class="chip-row" style="display:none;"></div>
-          <div class="hint" id="panel-candidate-hint" style="display:none;">
+          <div id="panel-candidate-buttons" class="chip-row" style="display: none"></div>
+          <div class="hint" id="panel-candidate-hint" style="display: none">
             매칭이 애매하면(신뢰도 낮음) 후보를 눌러서 확정해 주세요. 누르면 아래 결과가 즉시 다시 계산됩니다.
           </div>
         </div>
       </aside>
     </div>
-<script>
+
+    <script>
+      const API_BASE = window.location.origin;
+      const apiUrl = (path) => `${API_BASE}${path}`;
+
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/static/sw.js').catch(() => {});
+        });
+      }
+
       let currentMeds = [];
+      let currentMedDetails = [];
+      let selectedCurrentMedIds = new Set();
       let lastAnalyze = null;
+      let selectedImageState = { current: [], new: [] };
+      let autoActionTimers = { current: null, new: null };
+      let isAutoRegisteringCurrent = false;
+      let isAutoAnalyzingNew = false;
 
       window.onload = function () {
         const savedNick = localStorage.getItem("safepill_nickname");
@@ -279,27 +814,80 @@
         }
       };
 
+      function escapeHtml(text) {
+        return String(text || "")
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#39;");
+      }
+
+      function buildPreviewText(text, maxLen = 180) {
+        const value = String(text || "").trim();
+        if (!value) return "-";
+        return value.length > maxLen ? `${value.slice(0, maxLen)}...` : value;
+      }
+
+      function formatConfidence(value) {
+        const conf = Number(value || 0);
+        const confPct = conf <= 1 ? conf * 100 : conf;
+        return `${confPct.toFixed(1)}%`;
+      }
+
+      function normalizeList(value) {
+        return Array.isArray(value) ? value.filter(Boolean) : [];
+      }
+
+      function getSelectedCurrentDetails() {
+        return currentMedDetails.filter((item) => selectedCurrentMedIds.has(String(item.id)));
+      }
+
+      function updateSelectedMedSummary() {
+        const summaryEl = document.getElementById("selected-med-summary");
+        const toolbarStatus = document.getElementById("med-toolbar-status");
+        const librarySummary = document.getElementById("current-med-library-summary");
+        const total = currentMedDetails.length;
+        const selected = getSelectedCurrentDetails();
+        if (!total) {
+          summaryEl.innerText = "저장된 약이 없습니다.";
+          toolbarStatus.innerText = "비교 대상 0개 선택";
+          librarySummary.innerText = "현재 복용 약 목록 펼치기";
+          return;
+        }
+        summaryEl.innerText = `저장 ${total}개 중 비교 대상 ${selected.length}개 선택됨`;
+        toolbarStatus.innerText = `비교 대상 ${selected.length}개 선택`;
+        librarySummary.innerText = `현재 복용 약 목록 (${selected.length}/${total})`;
+      }
+
+      function toggleAllCurrentMeds(checked) {
+        selectedCurrentMedIds = checked
+          ? new Set(currentMedDetails.map((item) => String(item.id)).filter(Boolean))
+          : new Set();
+        renderMeds();
+      }
+
       async function handleLogin() {
         const nick = document.getElementById("nickname").value.trim();
         const pin = document.getElementById("pin").value.trim();
-        
+
         if (!nick || !pin) {
           alert("정보를 모두 입력해주세요!");
           return;
         }
-        
+
         if (pin.length !== 4) {
           alert("PIN 번호는 반드시 4자리를 입력해주세요!");
           return;
         }
 
         try {
-          const response = await fetch("http://127.0.0.1:8000/login", {
+          const response = await fetch(apiUrl("/login"), {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ nickname: nick, pin: pin })
+            body: JSON.stringify({ nickname: nick, pin: pin }),
           });
-          
+
           const result = await response.json();
           if (result.status === "success") {
             localStorage.setItem("safepill_nickname", nick);
@@ -321,37 +909,86 @@
       function showMainScreen(nickname) {
         document.getElementById("login-section").style.display = "none";
         document.getElementById("main-section").style.display = "block";
-        document.getElementById("side-panel").style.display = "block";
         document.getElementById("user-greeting").innerText = nickname;
         loadMeds(nickname);
       }
 
       async function loadMeds(nickname) {
         try {
-          const response = await fetch(`http://127.0.0.1:8000/meds/${nickname}`);
+          const response = await fetch(apiUrl(`/meds/${nickname}`));
           const data = await response.json();
-          currentMeds = data.meds || [];
+          currentMedDetails = Array.isArray(data.items)
+            ? data.items
+            : (data.meds || []).map((name, index) => ({ id: index + 1, name, active_ingredients: [], source_type: "manual" }));
+          currentMeds = currentMedDetails.map((item) => item.name).filter(Boolean);
+
+          const allIds = currentMedDetails.map((item) => String(item.id)).filter(Boolean);
+          const kept = allIds.filter((id) => selectedCurrentMedIds.has(id));
+          if (allIds.length === 0) {
+            selectedCurrentMedIds = new Set();
+          } else if (kept.length > 0) {
+            selectedCurrentMedIds = new Set(kept);
+          } else {
+            selectedCurrentMedIds = new Set(allIds);
+          }
           renderMeds();
         } catch (error) {
-          console.error("약통 불러오기 실패");
+          console.error("약통 불러오기 실패", error);
         }
+      }
+
+      async function saveMedName(name, options = {}) {
+        const nick = localStorage.getItem("safepill_nickname");
+        const medicineName = (name || "").trim();
+        if (!nick || !medicineName) return null;
+
+        const response = await fetch(apiUrl("/add_med"), {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ nickname: nick, medicine_name: medicineName }),
+        });
+        const result = await response.json();
+        await loadMeds(nick);
+
+        if (options.showAlert) {
+          alert(`${result.saved_name || medicineName} 약이 약통에 저장됐습니다.`);
+        }
+        return result;
+      }
+
+      async function saveMedDetail(payload, options = {}) {
+        const nick = localStorage.getItem("safepill_nickname");
+        if (!nick) return null;
+        const response = await fetch(apiUrl("/add_med_detail"), {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            nickname: nick,
+            medicine_name: (payload.medicine_name || "").trim(),
+            active_ingredients: normalizeList(payload.active_ingredients),
+            source_type: payload.source_type || "manual",
+            ocr_text: payload.ocr_text || "",
+          }),
+        });
+        const result = await response.json();
+        if (!response.ok || result.status === "fail") {
+          throw new Error(result.message || "server error");
+        }
+        await loadMeds(nick);
+        if (options.showAlert) {
+          alert(`${result.saved_name || "약"}이(가) 약통에 저장됐습니다.`);
+        }
+        return result;
       }
 
       async function addMed() {
         const input = document.getElementById("med-input");
         const val = input.value.trim();
-        const nick = localStorage.getItem("safepill_nickname");
-        
-        if(!val || !nick) return;
+        if (!val) return;
 
         try {
-          await fetch("http://127.0.0.1:8000/add_med", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ nickname: nick, medicine_name: val })
-          });
+          await saveMedName(val);
           input.value = "";
-          loadMeds(nick);
         } catch (error) {
           alert("약 추가 실패!");
         }
@@ -360,12 +997,12 @@
       async function removeMed(medName) {
         const nick = localStorage.getItem("safepill_nickname");
         try {
-          await fetch("http://127.0.0.1:8000/delete_med", {
+          await fetch(apiUrl("/delete_med"), {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ nickname: nick, medicine_name: medName })
+            body: JSON.stringify({ nickname: nick, medicine_name: medName }),
           });
-          loadMeds(nick);
+          await loadMeds(nick);
         } catch (error) {
           alert("약 삭제 실패!");
         }
@@ -374,58 +1011,493 @@
       function renderMeds() {
         const ul = document.getElementById("med-list");
         ul.innerHTML = "";
-        if (currentMeds.length === 0) {
+        if (currentMedDetails.length === 0) {
           ul.innerHTML = `<li style="color:#777;font-size:13px;">저장된 약이 없습니다.</li>`;
+          updateSelectedMedSummary();
           return;
         }
-        currentMeds.forEach(m => {
+
+        currentMedDetails.forEach((item) => {
           const li = document.createElement("li");
-          li.style.cssText = "display:flex; justify-content:space-between; align-items:center; padding:8px 10px; border:1px solid #eee; border-radius:10px; margin-bottom:8px;";
-          li.innerHTML = `
-            <span>${m}</span>
-            <button style="border:none;background:#f3f4f6;border-radius:8px;padding:6px 10px;cursor:pointer;"
-                    onclick="removeMed('${m}')">삭제</button>`;
+          li.className = "med-row";
+
+          const top = document.createElement("div");
+          top.className = "med-row-top";
+
+          const selectWrap = document.createElement("div");
+          selectWrap.className = "med-select-wrap";
+
+          const check = document.createElement("input");
+          check.type = "checkbox";
+          check.className = "med-checkbox";
+          check.checked = selectedCurrentMedIds.has(String(item.id));
+          check.onchange = () => {
+            const key = String(item.id);
+            if (check.checked) {
+              selectedCurrentMedIds.add(key);
+            } else {
+              selectedCurrentMedIds.delete(key);
+            }
+            updateSelectedMedSummary();
+          };
+          selectWrap.appendChild(check);
+
+          const nameWrap = document.createElement("div");
+          nameWrap.style.flex = "1";
+
+          const nameSpan = document.createElement("div");
+          nameSpan.textContent = item.name || "-";
+          nameSpan.style.cssText = "font-weight:700;word-break:break-word;";
+          nameWrap.appendChild(nameSpan);
+
+          const sub = document.createElement("div");
+          sub.className = "muted";
+          if (Array.isArray(item.active_ingredients) && item.active_ingredients.length > 0) {
+            sub.textContent = `유효성분 ${item.active_ingredients.length}개 저장됨`;
+          } else {
+            sub.textContent = item.source_type === "manual" ? "직접 입력 저장" : "유효성분 정보 없음";
+          }
+          nameWrap.appendChild(sub);
+          selectWrap.appendChild(nameWrap);
+
+          const deleteBtn = document.createElement("button");
+          deleteBtn.textContent = "삭제";
+          deleteBtn.style.cssText = "border:none;background:#f3f4f6;border-radius:8px;padding:6px 10px;cursor:pointer;";
+          deleteBtn.onclick = () => removeMed(item.name);
+
+          top.appendChild(selectWrap);
+          top.appendChild(deleteBtn);
+          li.appendChild(top);
+
+          if (Array.isArray(item.active_ingredients) && item.active_ingredients.length > 0) {
+            const details = document.createElement("details");
+            details.className = "compact-details";
+            const summary = document.createElement("summary");
+            summary.textContent = "유효성분 보기";
+            const body = document.createElement("div");
+            body.className = "compact-details-body";
+            body.textContent = item.active_ingredients.join(", ");
+            details.appendChild(summary);
+            details.appendChild(body);
+            li.appendChild(details);
+          }
+
           ul.appendChild(li);
+        });
+
+        updateSelectedMedSummary();
+      }
+
+      function openHiddenPicker(inputId) {
+        const input = document.getElementById(inputId);
+        if (input) input.click();
+      }
+
+      function getPreviewContainerIdByKey(key) {
+        return key === "current" ? "preview-current-container" : "preview-new-container";
+      }
+
+      function getAutoStatusIdByKey(key) {
+        return key === "current" ? "current-auto-status" : "new-auto-status";
+      }
+
+      function getSelectedImageFiles(key) {
+        return Array.isArray(selectedImageState[key]) ? selectedImageState[key] : [];
+      }
+
+      function addFilesToState(key, files) {
+        if (!Array.isArray(selectedImageState[key])) {
+          selectedImageState[key] = [];
+        }
+        const current = selectedImageState[key];
+        Array.from(files || []).forEach((file) => {
+          const exists = current.some(
+            (saved) =>
+              saved.name === file.name &&
+              saved.size === file.size &&
+              saved.lastModified === file.lastModified &&
+              saved.type === file.type
+          );
+          if (!exists) current.push(file);
         });
       }
 
-      function handleMultiplePreviews(event, containerId) {
-        const container = document.getElementById(containerId);
-        container.innerHTML = ""; 
-        const files = event.target.files;
-        if (files) {
-          Array.from(files).forEach((file) => {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-              const img = document.createElement("img");
-              img.src = e.target.result;
-              img.className = "preview-img";
-              container.appendChild(img);
-            };
-            reader.readAsDataURL(file);
-          });
+      function renderPreviewState(key, containerId) {
+        const container = document.getElementById(containerId || getPreviewContainerIdByKey(key));
+        if (!container) return;
+        container.innerHTML = "";
+        const files = getSelectedImageFiles(key);
+        files.forEach((file) => {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            const img = document.createElement("img");
+            img.src = e.target.result;
+            img.className = "preview-img";
+            container.appendChild(img);
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+
+      function clearImageSelection(key) {
+        selectedImageState[key] = [];
+        if (autoActionTimers[key]) {
+          clearTimeout(autoActionTimers[key]);
+          autoActionTimers[key] = null;
+        }
+        renderPreviewState(key, getPreviewContainerIdByKey(key));
+        const status = document.getElementById(getAutoStatusIdByKey(key));
+        if (status) {
+          status.style.display = "none";
+          status.innerText = "";
         }
       }
 
-      async function confirmStep() {
-        const newPillFiles = document.getElementById("new-pill").files;
-        if (newPillFiles.length === 0) {
-          alert("새로 먹을 약 사진을 최소 1장 첨부해주세요!");
+      function scheduleAutoAction(key) {
+        const status = document.getElementById(getAutoStatusIdByKey(key));
+        if (status) {
+          status.style.display = "block";
+          status.innerText = key === "current" ? "사진 선택 완료 · 아래 버튼으로 약통 등록을 진행하세요." : "사진 선택 완료 · 아래 분석 버튼을 눌러 주세요.";
+        }
+        if (autoActionTimers[key]) {
+          clearTimeout(autoActionTimers[key]);
+          autoActionTimers[key] = null;
+        }
+      }
+
+      function handleMultiplePreviews(event, containerId, stateKey) {
+        const key = stateKey || (containerId === "preview-current-container" ? "current" : "new");
+        const files = event.target.files;
+        if (files && files.length) {
+          addFilesToState(key, files);
+          renderPreviewState(key, containerId);
+          scheduleAutoAction(key);
+        }
+        event.target.value = "";
+      }
+
+      function renderOcrPanel(text) {
+        const previewEl = document.getElementById("panel-ocr-preview");
+        const fullEl = document.getElementById("panel-ocr-full");
+        const toggleBtn = document.getElementById("panel-ocr-toggle");
+        const value = String(text || "").trim();
+
+        if (!value) {
+          previewEl.innerText = "-";
+          fullEl.style.display = "none";
+          fullEl.innerText = "";
+          toggleBtn.style.display = "none";
+          return;
+        }
+
+        previewEl.innerText = buildPreviewText(value, 180);
+        fullEl.innerText = value;
+        fullEl.style.display = "none";
+        toggleBtn.style.display = value.length > 180 ? "inline-block" : "none";
+        toggleBtn.innerText = "원문 펼치기";
+        toggleBtn.onclick = () => {
+          const opened = fullEl.style.display !== "none";
+          fullEl.style.display = opened ? "none" : "block";
+          toggleBtn.innerText = opened ? "원문 펼치기" : "원문 접기";
+        };
+      }
+
+      function renderCurrentMedPanel(result) {
+        const summaryEl = document.getElementById("panel-current-meds-summary");
+        const detailsEl = document.getElementById("panel-current-meds-details");
+        const bodyEl = document.getElementById("panel-current-meds");
+        const sources = normalizeList(result.current_ingredient_sources);
+        const usedNames = normalizeList(result.selected_current_labels && result.selected_current_labels.length ? result.selected_current_labels : result.current_meds_used);
+        const currentIngredients = normalizeList(result.current_active_ingredients);
+
+        if (!usedNames.length && !currentIngredients.length) {
+          summaryEl.innerText = "-";
+          detailsEl.style.display = "none";
+          bodyEl.innerHTML = "";
+          return;
+        }
+
+        summaryEl.innerText = `현재 약 ${usedNames.length}개 · 비교한 유효성분 ${currentIngredients.length}개`;
+        detailsEl.style.display = "block";
+
+        const sourceLabels = new Set();
+        const html = [];
+        sources.forEach((src) => {
+          const label = src.label || "현재 복용 약";
+          sourceLabels.add(label);
+          html.push(`
+            <div class="source-item">
+              <div class="source-title">${escapeHtml(label)}</div>
+              <div class="source-text">${escapeHtml((src.ingredients || []).join(", ") || "유효성분 정보 없음")}</div>
+            </div>
+          `);
+        });
+
+        usedNames.forEach((name) => {
+          if (sourceLabels.has(name)) return;
+          html.push(`
+            <div class="source-item">
+              <div class="source-title">${escapeHtml(name)}</div>
+              <div class="source-text">유효성분 정보가 아직 저장되지 않았습니다.</div>
+            </div>
+          `);
+        });
+
+        bodyEl.innerHTML = html.join("");
+      }
+
+      function fillIngredientEvidence(result) {
+        const selectedLabelEl = document.getElementById("evidence-current-labels");
+        const currentEl = document.getElementById("evidence-current-ingredients");
+        const newEl = document.getElementById("evidence-new-ingredients");
+        const overlapEl = document.getElementById("evidence-overlap-ingredients");
+        const ruleEl = document.getElementById("evidence-rule-matches");
+        const basisEl = document.getElementById("evidence-compare-basis");
+
+        const selectedLabels = normalizeList(result.selected_current_labels);
+        const currentIngredients = normalizeList(result.current_active_ingredients);
+        const newIngredients = normalizeList(result.active_ingredients && result.active_ingredients.length ? result.active_ingredients : result.new_active_ingredients);
+        const overlapIngredients = normalizeList(result.overlap_active_ingredients);
+        const ruleMatches = normalizeList(result.ingredient_rule_matches);
+        const compareBasis = normalizeList(result.compare_basis);
+
+        selectedLabelEl.innerText = selectedLabels.length ? selectedLabels.join(", ") : "선택한 현재 복용 약 없음";
+        currentEl.innerText = currentIngredients.length ? currentIngredients.join(", ") : "현재 복용 약에서 유효성분을 아직 확보하지 못했습니다.";
+        newEl.innerText = newIngredients.length ? newIngredients.join(", ") : "새 약 사진에서 유효성분을 아직 확보하지 못했습니다.";
+        overlapEl.innerText = overlapIngredients.length ? overlapIngredients.join(", ") : "중복 성분은 아직 감지되지 않았습니다.";
+        ruleEl.innerText = ruleMatches.length
+          ? ruleMatches.map((item) => `${item.current_ingredient} ↔ ${item.new_ingredient} (${item.risk})`).join("\n")
+          : "추가 성분 주의 조합은 아직 감지되지 않았습니다.";
+        basisEl.innerText = compareBasis.length ? compareBasis.join(" · ") : "-";
+
+        const summaryNewName = document.getElementById("summary-new-name");
+        const summaryCurrentNames = document.getElementById("summary-current-names");
+        const summaryNewIngredients = document.getElementById("summary-new-ingredients");
+        const summaryOverlap = document.getElementById("summary-overlap");
+
+        if (summaryNewName) {
+          summaryNewName.innerText = result.public_name || "제품명 확인 필요 · 성분 기준 분석";
+        }
+        if (summaryCurrentNames) {
+          summaryCurrentNames.innerText = selectedLabels.length ? selectedLabels.join(", ") : "선택한 현재 복용 약 없음";
+        }
+        if (summaryNewIngredients) {
+          summaryNewIngredients.innerText = newIngredients.length ? newIngredients.join(", ") : "유효성분을 아직 확보하지 못했습니다.";
+        }
+        if (summaryOverlap) {
+          summaryOverlap.innerText = overlapIngredients.length ? overlapIngredients.join(", ") : "중복 성분 없음";
+        }
+      }
+
+      function decorateSavedImportCard(card, badge, name) {
+        badge.className = "pill-badge ok";
+        badge.textContent = `저장 완료: ${name}`;
+        card.querySelectorAll("button").forEach((btn) => (btn.disabled = true));
+        card.querySelectorAll("input").forEach((input) => (input.disabled = true));
+      }
+
+      function renderImportReview(items) {
+        const wrap = document.getElementById("current-import-review");
+        wrap.innerHTML = "";
+        if (!Array.isArray(items) || items.length === 0) return;
+
+        items.forEach((item) => {
+          const card = document.createElement("div");
+          card.className = "import-card";
+
+          const title = document.createElement("div");
+          title.className = "import-card-title";
+          title.textContent = `${item.index || "-"}. ${item.file_name || "이미지"}`;
+          card.appendChild(title);
+
+          const badge = document.createElement("div");
+          badge.className = `pill-badge ${item.status === "saved" ? "ok" : "warn"}`;
+          badge.textContent = item.status === "saved" ? `저장 완료: ${item.saved_name}` : "직접 저장 필요";
+          card.appendChild(badge);
+
+          if (Array.isArray(item.active_ingredients) && item.active_ingredients.length > 0) {
+            const ing = document.createElement("div");
+            ing.className = "import-card-meta";
+            ing.textContent = `유효성분: ${item.active_ingredients.join(", ")}`;
+            card.appendChild(ing);
+          }
+
+          if (item.status !== "saved") {
+
+            const manualInput = document.createElement("input");
+            manualInput.type = "text";
+            manualInput.className = "inline-input";
+            manualInput.placeholder = "직접 약 이름 입력 후 저장";
+            manualInput.value = normalizeList(item.active_ingredients)[0] || "";
+            card.appendChild(manualInput);
+
+            const actionRow = document.createElement("div");
+            actionRow.className = "action-row";
+
+            const saveNamedBtn = document.createElement("button");
+            saveNamedBtn.type = "button";
+            saveNamedBtn.className = "btn-mini";
+            saveNamedBtn.textContent = "직접 이름으로 저장";
+            saveNamedBtn.onclick = async () => {
+              const value = manualInput.value.trim();
+              if (!value) {
+                alert("저장할 이름을 입력해 주세요.");
+                return;
+              }
+              try {
+                saveNamedBtn.disabled = true;
+                const saved = await saveMedDetail({
+                  medicine_name: value,
+                  active_ingredients: item.active_ingredients || [],
+                  source_type: "image",
+                  ocr_text: item.ocr_text || "",
+                });
+                decorateSavedImportCard(card, badge, saved.saved_name || value);
+              } catch (error) {
+                alert("직접 저장 실패!");
+                saveNamedBtn.disabled = false;
+              }
+            };
+            actionRow.appendChild(saveNamedBtn);
+
+            const ingredientOnlyBtn = document.createElement("button");
+            ingredientOnlyBtn.type = "button";
+            ingredientOnlyBtn.className = "btn-mini";
+            ingredientOnlyBtn.textContent = "이름 없이 성분만 저장";
+            ingredientOnlyBtn.disabled = !normalizeList(item.active_ingredients).length;
+            ingredientOnlyBtn.onclick = async () => {
+              try {
+                ingredientOnlyBtn.disabled = true;
+                const saved = await saveMedDetail({
+                  medicine_name: "",
+                  active_ingredients: item.active_ingredients || [],
+                  source_type: "image",
+                  ocr_text: item.ocr_text || "",
+                });
+                decorateSavedImportCard(card, badge, saved.saved_name || "성분 기반 등록");
+              } catch (error) {
+                alert("성분만 저장 실패!");
+                ingredientOnlyBtn.disabled = false;
+              }
+            };
+            actionRow.appendChild(ingredientOnlyBtn);
+
+            card.appendChild(actionRow);
+          }
+
+
+          wrap.appendChild(card);
+        });
+      }
+
+      async function registerCurrentMedsFromImages(options = {}) {
+        const nick = localStorage.getItem("safepill_nickname");
+        const files = getSelectedImageFiles("current");
+        const statusBox = document.getElementById("current-import-status");
+        const autoStatusBox = document.getElementById("current-auto-status");
+        const btn = document.getElementById("current-import-btn");
+        const autoTriggered = !!options.autoTriggered;
+
+        if (!nick) {
+          if (!autoTriggered) alert("먼저 로그인해 주세요.");
+          return;
+        }
+        if (!files || files.length === 0) {
+          if (!autoTriggered) alert("현재 복용 약 사진을 먼저 선택해 주세요!");
           return;
         }
 
         const formData = new FormData();
-        Array.from(newPillFiles).forEach(file => formData.append(`image`, file));
-        
-        currentMeds.forEach(d => formData.append("current_drugs", d));
+        formData.append("nickname", nick);
+        Array.from(files).forEach((file) => formData.append("images", file));
+
+        btn.disabled = true;
+        const oldText = btn.innerText;
+        btn.innerText = autoTriggered ? "자동 등록 중..." : "약통 등록 중...";
+        if (autoStatusBox) {
+          autoStatusBox.style.display = "block";
+          autoStatusBox.innerText = autoTriggered ? "촬영/선택 직후 자동 등록을 진행 중입니다..." : "";
+        }
+
+        try {
+          const response = await fetch(apiUrl("/add_med_images"), {
+            method: "POST",
+            body: formData,
+          });
+          const result = await response.json();
+
+          if (!response.ok || result.status === "fail") {
+            throw new Error(result.message || "server error");
+          }
+
+          statusBox.style.display = "block";
+          statusBox.innerText = "";
+          renderImportReview(result.items || []);
+          await loadMeds(nick);
+          if (autoStatusBox) {
+            autoStatusBox.style.display = "block";
+            autoStatusBox.innerText = "사진 인식이 완료되어 현재 복용 약 목록을 업데이트했습니다.";
+          }
+        } catch (error) {
+          statusBox.style.display = "block";
+          statusBox.innerText = "약통 이미지 등록 중 오류가 발생했습니다.";
+          if (autoStatusBox && autoTriggered) {
+            autoStatusBox.style.display = "block";
+            autoStatusBox.innerText = "자동 등록에 실패해 아래 버튼으로 다시 시도할 수 있습니다.";
+          }
+        } finally {
+          btn.disabled = false;
+          btn.innerText = oldText;
+        }
+      }
+
+      async function confirmStep(options = {}) {
+        const newPillFiles = getSelectedImageFiles("new");
+        const currentPillFiles = getSelectedImageFiles("current");
+        const autoTriggered = !!options.autoTriggered;
+        const autoStatusBox = document.getElementById("new-auto-status");
+        if (newPillFiles.length === 0) {
+          if (!autoTriggered) alert("새로 먹을 약 사진을 최소 1장 첨부해주세요!");
+          return;
+        }
+
+        const formData = new FormData();
+        const nick = localStorage.getItem("safepill_nickname") || "";
+        const selectedItems = getSelectedCurrentDetails();
+        if (selectedItems.length === 0) {
+          const library = document.getElementById("current-med-library");
+          const librarySummary = document.getElementById("current-med-library-summary");
+          if (library) library.open = true;
+          if (librarySummary) librarySummary.innerText = `현재 복용 약 목록 (${selectedCurrentMedIds.size}/${currentMedDetails.length})`;
+          const message = currentMedDetails.length > 0
+            ? "현재 복용 약 목록에서 비교할 약을 먼저 선택해 주세요."
+            : "현재 복용 약이 없습니다. 먼저 현재 복용 약을 등록해 주세요.";
+          if (!autoTriggered) alert(message);
+          const summaryEl = document.getElementById("selected-med-summary");
+          if (summaryEl) summaryEl.innerText = message;
+          const sectionTitle = document.querySelector('.section-subtitle');
+          if (sectionTitle) sectionTitle.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return;
+        }
+        formData.append("nickname", nick);
+        Array.from(newPillFiles).forEach((file) => formData.append("image", file));
+        selectedItems.forEach((item) => {
+          formData.append("selected_current_ids", String(item.id));
+          formData.append("current_drugs", item.name);
+        });
+        Array.from(currentPillFiles || []).forEach((file) => formData.append("current_pill_images", file));
 
         const btn = document.getElementById("analyze-btn");
         const originalBtnText = btn.innerText;
-        btn.innerText = "분석 중... ⏳";
+        btn.innerText = autoTriggered ? "자동 분석 중... ⏳" : "분석 중... ⏳";
         btn.disabled = true;
+        if (autoStatusBox) {
+          autoStatusBox.style.display = "block";
+          autoStatusBox.innerText = autoTriggered ? "촬영/선택 직후 자동 분석을 진행 중입니다..." : "";
+        }
 
         try {
-          const response = await fetch("http://127.0.0.1:8000/analyze", {
+          const response = await fetch(apiUrl("/analyze"), {
             method: "POST",
             body: formData,
           });
@@ -436,8 +1508,19 @@
           document.getElementById("result-container").style.display = "block";
           lastAnalyze = result;
           updateResultUI(result);
+          if (autoStatusBox) {
+            autoStatusBox.style.display = "block";
+            autoStatusBox.innerText = "사진 인식이 완료되어 결과를 자동으로 표시했습니다.";
+          }
         } catch (error) {
-          alert("서버 연결 실패!");
+          if (autoTriggered) {
+            if (autoStatusBox) {
+              autoStatusBox.style.display = "block";
+              autoStatusBox.innerText = "자동 분석에 실패해 아래 버튼으로 다시 시도할 수 있습니다.";
+            }
+          } else {
+            alert("서버 연결 실패!");
+          }
         } finally {
           btn.innerText = originalBtnText;
           btn.disabled = false;
@@ -450,34 +1533,58 @@
         const trafficLight = document.querySelector(".traffic-light");
         const reasonText = document.getElementById("reason-text");
         const descText = document.getElementById("personalized-desc");
+        const summaryLineList = document.getElementById("summary-line-list");
+        const actionList = document.getElementById("action-list");
+        const ingredientExplainBox = document.getElementById("ingredient-explain-box");
+        const ingredientExplainList = document.getElementById("ingredient-explain-list");
 
         const panelCorrected = document.getElementById("panel-corrected");
-        const panelOcr = document.getElementById("panel-ocr");
         const panelRule = document.getElementById("panel-rule");
         const panelConf = document.getElementById("panel-confidence");
         const panelCand = document.getElementById("panel-candidates");
         const panelIng = document.getElementById("panel-ingredients");
+        const panelCurrentIngredients = document.getElementById("panel-current-ingredients");
+        const panelOverlapIngredients = document.getElementById("panel-overlap-ingredients");
+        const panelCurrentNote = document.getElementById("panel-current-note");
+        const panelIngredientRules = document.getElementById("panel-ingredient-rules");
+        const panelCompareBasis = document.getElementById("panel-compare-basis");
 
-        panelCorrected.innerText = result.corrected_name || "-";
-        panelOcr.innerText = result.ocr_text || "-";
+        panelCorrected.innerText = result.public_name || "제품명 확인 필요 · 성분 기준 분석";
         panelRule.innerText = result.rule_corrected || "-";
+        renderOcrPanel(result.ocr_text || "");
 
-        const conf = result.match_confidence ?? 0;
-        const confPct = conf <= 1 ? (conf * 100) : conf;
-        panelConf.innerText = `신뢰도: ${confPct.toFixed(1)}%`;
+        panelConf.innerText = `신뢰도: ${formatConfidence(result.match_confidence)}`;
         document.getElementById("panel-note").innerText = result.match_note || "";
 
-        if (Array.isArray(result.active_ingredients) && result.active_ingredients.length > 0) {
-          panelIng.innerText = result.active_ingredients.join(", ");
+        const newIngredients = normalizeList(result.active_ingredients && result.active_ingredients.length ? result.active_ingredients : result.new_active_ingredients);
+        const currentIngredients = normalizeList(result.current_active_ingredients);
+        const overlapIngredients = normalizeList(result.overlap_active_ingredients);
+        const ruleMatches = normalizeList(result.ingredient_rule_matches);
+        const compareBasis = normalizeList(result.compare_basis);
+
+        panelIng.innerText = newIngredients.length ? newIngredients.join(", ") : "-";
+        panelCurrentIngredients.innerText = currentIngredients.length ? currentIngredients.join(", ") : "-";
+        panelOverlapIngredients.innerText = overlapIngredients.length ? overlapIngredients.join(", ") : "중복 성분 없음";
+        panelIngredientRules.innerText = ruleMatches.length
+          ? ruleMatches.map((item) => `${item.current_ingredient} ↔ ${item.new_ingredient} (${item.risk})`).join("\n")
+          : "추가 주의 조합 없음";
+        panelCompareBasis.innerText = compareBasis.length ? compareBasis.join(" · ") : "-";
+        renderCurrentMedPanel(result);
+        fillIngredientEvidence(result);
+
+        if ((result.current_meds_unresolved_count || 0) > 0) {
+          panelCurrentNote.style.display = "block";
+          panelCurrentNote.innerText = `현재 약 사진 ${result.current_meds_unresolved_count}장은 자동 확정되지 않아 비교에서 제외됐습니다.`;
         } else {
-          panelIng.innerText = "-";
+          panelCurrentNote.style.display = "none";
+          panelCurrentNote.innerText = "";
         }
 
         const btnWrap = document.getElementById("panel-candidate-buttons");
         const hint = document.getElementById("panel-candidate-hint");
         btnWrap.innerHTML = "";
 
-        const cands = Array.isArray(result.match_candidates) ? result.match_candidates.slice(0, 8) : [];
+        const cands = normalizeList(result.match_candidates).slice(0, 8);
         panelCand.innerText = cands.length ? cands.join(", ") : "-";
 
         const needs = !!result.needs_confirm;
@@ -518,7 +1625,84 @@
         }
 
         reasonText.innerText = result.reason || "";
-        descText.innerText = result.explanation || "";
+        descText.innerText = result.friendly_summary || result.explanation || "";
+
+        const explanationLines = normalizeList(result.explanation_lines);
+        summaryLineList.innerHTML = "";
+        explanationLines.forEach((line) => {
+          const li = document.createElement("li");
+          li.innerText = String(line || "").replace(/^[\-•]\s*/, "");
+          summaryLineList.appendChild(li);
+        });
+
+        const overlapForAction = overlapIngredients;
+        const fallbackActions = overlapForAction.length
+          ? [
+              `겹치는 성분(${overlapForAction.join(", ")})이 있으면 같은 날 중복 복용을 피하기`,
+              "같은 증상약이라도 성분이 겹치는지 한 번 더 확인하기",
+              "하루 총 복용량과 복용 간격을 임의로 늘리지 않기",
+              "며칠 이상 계속 먹거나 기존 질환·항응고제 복용 중이면 약사와 상담하기",
+            ]
+          : result.risk === "위험"
+            ? [
+                "실제 복약 전 반드시 약사나 의사에게 먼저 확인하기",
+                "확인 전까지는 새 약을 임의로 함께 복용하지 않기",
+              ]
+            : result.risk === "주의"
+              ? [
+                  "증상이 비슷해도 성분이 겹치는지 한 번 더 확인하기",
+                  "복용량과 복용 간격을 임의로 늘리지 않기",
+                ]
+              : ["특이사항이 없어 보여도 실제 복약 전 성분표를 한 번 더 확인하기"];
+
+        const actionItems = normalizeList(result.action_items && result.action_items.length ? result.action_items : fallbackActions).slice(0, 1);
+        actionList.innerHTML = "";
+        actionItems.forEach((line) => {
+          const li = document.createElement("li");
+          li.innerText = String(line || "").replace(/^[\-•]\s*/, "");
+          actionList.appendChild(li);
+        });
+
+        const ingredientExplanations = Array.isArray(result.ingredient_explanations) ? result.ingredient_explanations : [];
+        ingredientExplainList.innerHTML = "";
+        ingredientExplainBox.style.display = "block";
+        if (ingredientExplanations.length > 0) {
+          ingredientExplanations.forEach((item) => {
+            const wrap = document.createElement("div");
+            wrap.className = "ingredient-proof-item";
+
+            const label = document.createElement("div");
+            label.className = "ingredient-proof-label";
+            const roleText = item && item.role ? ` · ${item.role}` : "";
+            label.innerText = `${item.ingredient || "유효성분"}${roleText}`;
+            wrap.appendChild(label);
+
+            const body = document.createElement("div");
+            body.className = "ingredient-proof-text";
+            const parts = [];
+            if (item && item.summary) parts.push(item.summary);
+            if (item && item.caution) parts.push(`주의: ${item.caution}`);
+            body.innerText = parts.join("\n");
+            wrap.appendChild(body);
+
+            ingredientExplainList.appendChild(wrap);
+          });
+        } else {
+          const wrap = document.createElement("div");
+          wrap.className = "ingredient-proof-item";
+
+          const label = document.createElement("div");
+          label.className = "ingredient-proof-label";
+          label.innerText = "확정된 유효성분 없음";
+          wrap.appendChild(label);
+
+          const body = document.createElement("div");
+          body.className = "ingredient-proof-text";
+          body.innerText = "이번 사진에서는 유효성분을 충분히 확인하지 못해 쉬운 해석을 만들지 못했습니다. 성분표가 보이도록 다시 촬영하거나 제품명을 직접 확인해 주세요.";
+          wrap.appendChild(body);
+
+          ingredientExplainList.appendChild(wrap);
+        }
       }
 
       async function applyCandidate(name) {
@@ -526,10 +1710,25 @@
         Array.from(btnWrap.querySelectorAll("button")).forEach((b) => (b.disabled = true));
 
         try {
-          const res = await fetch("http://127.0.0.1:8000/analyze_select", {
+          const selectedItems = getSelectedCurrentDetails();
+          const currentDrugsForRetry =
+            Array.isArray(lastAnalyze?.current_meds_used) && lastAnalyze.current_meds_used.length > 0
+              ? lastAnalyze.current_meds_used
+              : selectedItems.map((item) => item.name);
+          const currentIngredientsForRetry = normalizeList(lastAnalyze?.current_active_ingredients);
+          const newIngredientsForRetry = normalizeList(lastAnalyze?.active_ingredients && lastAnalyze.active_ingredients.length ? lastAnalyze.active_ingredients : lastAnalyze?.new_active_ingredients);
+          const selectedLabels = normalizeList(lastAnalyze?.selected_current_labels && lastAnalyze.selected_current_labels.length ? lastAnalyze.selected_current_labels : selectedItems.map((item) => item.name));
+
+          const res = await fetch(apiUrl("/analyze_select"), {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ selected_name: name, current_drugs: currentMeds }),
+            body: JSON.stringify({
+              selected_name: name,
+              current_drugs: currentDrugsForRetry,
+              current_active_ingredients: currentIngredientsForRetry,
+              new_active_ingredients: newIngredientsForRetry,
+              selected_current_labels: selectedLabels,
+            }),
           });
           const data = await res.json();
           if (!res.ok || data.status === "fail") {
@@ -540,11 +1739,19 @@
           const merged = {
             ...(lastAnalyze || {}),
             corrected_name: data.corrected_name,
+            public_name: data.public_name || data.corrected_name || name,
             risk: data.risk,
             reason: data.reason,
             explanation: data.explanation,
             match_note: data.match_note,
             needs_confirm: false,
+            current_meds_used: data.current_meds_used || currentDrugsForRetry,
+            current_active_ingredients: data.current_active_ingredients || currentIngredientsForRetry,
+            new_active_ingredients: data.new_active_ingredients || newIngredientsForRetry,
+            overlap_active_ingredients: data.overlap_active_ingredients || [],
+            ingredient_rule_matches: data.ingredient_rule_matches || [],
+            compare_basis: data.compare_basis || [],
+            selected_current_labels: data.selected_current_labels || selectedLabels,
           };
           lastAnalyze = merged;
           updateResultUI(merged);
@@ -555,5 +1762,6 @@
         }
       }
     </script>
+
   </body>
 </html>
